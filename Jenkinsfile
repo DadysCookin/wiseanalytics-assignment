@@ -6,14 +6,6 @@ pipeline {
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
-    stages {
-
-        stage('Checkout Code') {
-            steps {
-                git credentialsId: 'github-token', url: 'https://github.com/DadysCookin/wiseanalytics-assignment.git', branch: 'develop'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t nginx:latest ."
