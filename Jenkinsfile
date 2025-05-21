@@ -4,7 +4,18 @@ pipeline {
     environment {
         IMAGE_NAME = "nashit836/mynginx"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+        GIT_BRANCH = "develop"  // or "master" as per your repo
     }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                checkout([$class: 'GitSCM',
+                          branches: [[name: "refs/heads/${env.GIT_BRANCH}"]],
+                          userRemoteConfigs: [[url: 'https://github.com/DadysCookin/wiseanalytics-assignment.git']]
+                ])
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -17,7 +28,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh '''
                         echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push $IMAGE_NAME:$IMAGE_TAG
+                        docker push nginx:latest
                     '''
                 }
             }
@@ -28,11 +39,10 @@ pipeline {
                 withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
                     sh '''
                         export KUBECONFIG=$KUBECONFIG
-                        kubectl set image deployment/deployment my-container=nashit836/mynginx -n staging
+                        kubectl set image deployment/deployment mycontainer=nginx:latest -n staging
                     '''
                 }
             }
         }
-
     }
 }
