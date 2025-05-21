@@ -4,9 +4,10 @@ pipeline {
     environment {
         IMAGE_NAME = "nashit836/mynginx"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
-         // or "master" as per your repo
+        // or "master" as per your repo
     }
 
+    stages {
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t nginx:latest ."
@@ -35,3 +36,4 @@ pipeline {
             }
         }
     }
+}
