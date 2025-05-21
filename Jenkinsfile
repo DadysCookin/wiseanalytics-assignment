@@ -4,18 +4,8 @@ pipeline {
     environment {
         IMAGE_NAME = "nashit836/mynginx"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
-        GIT_BRANCH = "develop"  // or "master" as per your repo
+         // or "master" as per your repo
     }
-
-    stages {
-        stage('Checkout Code') {
-            steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: "refs/heads/main"]],
-                          userRemoteConfigs: [[url: 'https://github.com/DadysCookin/wiseanalytics-assignment.git']]
-                ])
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
