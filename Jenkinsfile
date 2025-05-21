@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git credentialsId: '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', url: 'https://github.com/DadysCookin/wiseanalytics-assignment.git', branch: 'develop'
+                git credentialsId: 'github-token', url: 'https://github.com/DadysCookin/wiseanalytics-assignment.git', branch: 'develop'
             }
         }
 
