@@ -11,7 +11,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 checkout([$class: 'GitSCM',
-                          branches: [[name: "refs/heads/develop"]],
+                          branches: [[name: "refs/heads/main"]],
                           userRemoteConfigs: [[url: 'https://github.com/DadysCookin/wiseanalytics-assignment.git']]
                 ])
             }
